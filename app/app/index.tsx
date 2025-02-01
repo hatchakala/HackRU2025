@@ -1,24 +1,26 @@
+import { useState } from "react";
 import { View } from "react-native";
 import Level from "~/components/Level";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui/accordion";
-import { Card } from "~/components/ui/card";
-import { Text } from "~/components/ui/text";
+import { Accordion } from "~/components/ui/accordion";
 
-export default function Example() {
+export default function App() {
+  const [openLevel, setOpenLevel] = useState<number>(1);
+
   return (
-    <Accordion
-      type="single"
-      collapsible
-      className="w-full max-w-sm native:max-w-md"
-    >
-      {[4, 3, 2, 1].map((level) => {
-        return <Level level={level} key={level} />;
-      })}
-    </Accordion>
+    <View className="bg-zinc-900 h-full">
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full max-w-sm native:max-w-md"
+        value={`${openLevel}`}
+        onValueChange={(itemLevel) => setOpenLevel(parseInt(itemLevel || ""))}
+      >
+        {[4, 3, 2, 1].map((level) => {
+          return (
+            <Level level={level} key={level} isOpen={openLevel === level}/>
+          );
+        })}
+      </Accordion>
+    </View>
   );
 }
