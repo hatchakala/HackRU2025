@@ -19,7 +19,6 @@ person_list = []
 # timer setup
 last_run_time = time.time()  # last execution time
 interval = 20  # 20-second interval
-one_min_timer = time.time()
 
 
 while True:
@@ -65,9 +64,11 @@ while True:
             person_list.append(person_counter)
             person_counter = 0  # reset counter
 
-        if len(person_list) == 3:
+        if len(person_list) == 3:  # 20 * 3 = 60 seconds (so after 1 minute has passed)
             print(person_list)
-            person_average = math.ceil(sum(person_list) / len(person_list))
+            person_average = math.ceil(
+                sum(person_list) / len(person_list)
+            )  # THIS is the data point that needs to be sent to MongoDB
             print(" (1-MINUTE) Average people in frame: ", person_average)
             person_list.clear()
 
