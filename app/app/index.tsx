@@ -7,7 +7,7 @@ export default function App() {
   const [openLevel, setOpenLevel] = useState<number>(1);
 
   return (
-    <View className="bg-zinc-900 h-full">
+    <View className="h-full">
       <Accordion
         type="single"
         collapsible
@@ -17,7 +17,7 @@ export default function App() {
       >
         {[4, 3, 2, 1].map((level) => {
           return (
-            <Level level={level} key={level} isOpen={openLevel === level}/>
+            <Level level={level} key={level} isOpen={openLevel === level} />
           );
         })}
       </Accordion>
