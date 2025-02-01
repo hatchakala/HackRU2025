@@ -1,8 +1,20 @@
+import { CalendarDays } from "lucide-react-native";
+import { Button, View, Text } from "react-native";
 import Svg, { Path } from "react-native-svg";
+import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+} from "~/components/ui/hover-card";
 import { LoungeStatus } from "~/types";
 
+import { Button as CNButton } from "~/components/ui/button";
+import { Text as CNText } from "~/components/ui/text";
+import { Sun } from "~/lib/icons/Sun";
+
 interface Level1Map {
-  lougneStatuses: LoungeStatus[];
+  loungeStatus: LoungeStatus[];
 }
 
 const getFillColor = (noiseLevel: number) => {
@@ -10,16 +22,18 @@ const getFillColor = (noiseLevel: number) => {
     case 0:
       return "blue";
     case 1:
-      return "orange";
+      return "yellow";
     case 2:
+      return "orange";
+    case 3:
       return "red";
     default:
       break;
   }
 };
 
-const Level1Map: React.FC<Level1Map> = ({ lougneStatuses }) => {
-  const [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11] = lougneStatuses;
+const Level1Map: React.FC<Level1Map> = ({ loungeStatus }) => {
+  const [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11] = loungeStatus;
   return (
     <Svg
       width="320"
@@ -34,6 +48,7 @@ const Level1Map: React.FC<Level1Map> = ({ lougneStatuses }) => {
         stroke="white"
         stroke-width="3"
       />
+
       {/* l6 */}
       <Path
         d="M293.285 69.7582V86.595C293.285 87.6995 292.389 88.595 291.285 88.595H266.072C264.968 88.595 264.072 87.6995 264.072 86.595V64.3799C264.072 64.1818 264.102 63.9849 264.16 63.7955L267.893 51.5775C268.248 50.4138 267.491 49.2049 266.289 49.017L257.728 47.6794C256.541 47.4939 255.784 46.3099 256.114 45.154L258.755 35.9109C259 35.0523 259.785 34.4603 260.678 34.4603H314.368C315.473 34.4603 316.368 35.3558 316.368 36.4603V65.7582C316.368 66.8628 315.473 67.7582 314.368 67.7582H295.285C294.18 67.7582 293.285 68.6537 293.285 69.7582Z"
