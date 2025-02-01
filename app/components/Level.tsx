@@ -6,6 +6,8 @@ import {
 } from "./ui/accordion";
 import { View } from "react-native";
 import Level1Map from "~/lib/levelmaps/Level1";
+import { DEMO_LOUGNE_STATUSE } from "~/DummyData";
+import OverlayItems from "./OverlayItems";
 
 interface LevelProps {
   level: number;
@@ -28,7 +30,8 @@ const Level: React.FC<LevelProps> = ({ level, isOpen }) => {
       </AccordionTrigger>
       <AccordionContent className="">
         <View className="items-center">
-          <Level1Map />
+          <Level1Map loungeStatus={DEMO_LOUGNE_STATUSE} />
+          <OverlayItems loungeStatus={DEMO_LOUGNE_STATUSE} />
         </View>
       </AccordionContent>
     </AccordionItem>
