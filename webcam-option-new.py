@@ -2,15 +2,16 @@ import cv2
 from ultralytics import YOLO
 import math
 import time
+import os
 
 # model stuff
 model = YOLO("yolo-Weights/yolov8n.pt")
 classID = 0  # ["person"] class label for YOLO
 
 # start webcam
-cap = cv2.VideoCapture(0)
-cap.set(3, 640)
-cap.set(4, 480)
+# cap = cv2.VideoCapture(0)
+# cap.set(3, 640)
+# cap.set(4, 480)
 
 person_counter = 0
 person_list = []
@@ -21,12 +22,21 @@ person_average = 0  # AVERAGE OF 1 MINUTE --> NEEDS TO BE SENT TO MONGODB
 last_run_time = time.time()  # last execution time
 interval = 20  # 20-second interval
 
+os.system("rm /dev/shm/test.jpg")
 
 while True:
-    success, img = cap.read()
+    # success, img = cap.read()
 
     current_time = time.time()
     if (current_time - last_run_time) >= interval:
+
+        os.system("rpicam-still --nopreview --output /dev/shm/test.jpg")
+
+        while not os.path.exists("/dev/shm/test.jpg"):
+            pass
+
+        img = cv2.imread("/dev/shm/test.jpg")
+
         last_run_time = current_time  # update last run time
         results = model(img, stream=True, verbose=False)
 
@@ -72,10 +82,13 @@ while True:
             )  # THIS is the data point that needs to be sent to MongoDB
             print(" (1-MINUTE) Average people in frame: ", person_average)
             person_list.clear()
+        
+    os.system("rm /dev/shm/test.jpg")
+
 
     #cv2.imshow("Webcam", img)
-    if cv2.waitKey(1) == ord("q"):
-        break
+    # if cv2.waitKey(1) == ord("q"):
+    #     break
 
-cap.release()
-cv2.destroyAllWindows()
+# cap.release()
+# cv2.destroyAllWindows()
