@@ -15,11 +15,9 @@ export default function App() {
         value={`${openLevel}`}
         onValueChange={(itemLevel) => setOpenLevel(parseInt(itemLevel || ""))}
       >
-        {[5, 4, 3, 2, 1].map((level) => {
+        {[2, 1].map((level) => {
           return (
-            <View key={level}>
-              <Level level={level} isOpen={openLevel === level} />
-            </View>
+            <Level level={level} isOpen={openLevel === level} key={level} />
           );
         })}
       </Accordion>
