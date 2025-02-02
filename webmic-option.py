@@ -1,111 +1,55 @@
-import time, audioop
-import pygame
+import time
+import audioop
 import pyaudio
-import wave
+import numpy as np
+import math
 
-# pyaudio stuff
+# constants
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
-CHANNELS = 2
+CHANNELS = 2  # recording in stereo --> 2 channels --> left & right
 RATE = 44100
-RECORD_SECONDS = 5
+RECORD_SECONDS = 10  # Record for 10 seconds
+WAIT_SECONDS = 20  # Wait for 20 seconds after recording
+FRAMES_PER_10_SEC = (RATE * RECORD_SECONDS) // CHUNK
 
-# pyaudio objects
+# rms list for 1 min
+rms_list = []
+rms_average = 0  # AVERAGE OF 1 MINUTE --> NEEDS TO BE SENT TO MONGODB
+
+# initialize pyaudio
 p = pyaudio.PyAudio()
 stream = p.open(
     format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK
 )
 
-# pygame stuff
-pygame.init()
-screensize = (900, 600)
-screen = pygame.display.set_mode(screensize)
-pygame.display.set_caption("Shout harder.. :D")
+while True:
+    print("Recording for 10 seconds...")
+    frames = []
 
-# Defining colors
-WHITE = (255, 255, 255)
-RED = (255, 128, 128)
-YELLOW = (255, 255, 128)
-BLUE = (0, 0, 255)
+    # record 10 seconds of audio
+    for _ in range(FRAMES_PER_10_SEC):
+        data = stream.read(CHUNK, exception_on_overflow=False)
+        frames.append(data)
 
-# Loop till close button clicked
-done = False
-clock = pygame.time.Clock()
+    # process 10-second chunk
+    full_data = b"".join(frames)
+    samples = np.frombuffer(data, dtype=np.int16)  # raw data to numpy array
+    rms_volume = audioop.rms(full_data, 2)  # root mean square
 
-# variables
-score = []
-width = 0.8
+    print(
+        "Average volume in last 10 seconds:", rms_volume
+    )  # audioop.rms(fragment, width) --> width is number of channels
+    rms_list.append(rms_volume)
 
-margin = 20
-samples_per_section = screensize[0] / 3 - 2 * margin
-samples_per_section = int(samples_per_section)
+    if len(rms_list) == 2:
+        print(rms_list)
+        rms_average = math.ceil(
+            sum(rms_list) / len(rms_list)
+        )  # THIS is the data point that needs to be sent to MongoDB
+        print(" (1-MINUTE) Average volume: ", rms_average)
+        rms_list.clear()
 
-sound_tracks = [[0] * samples_per_section] * 3
-max_value = [0] * 3
-
-current_section = 0
-
-while not done:
-    total = 0
-    for i in range(0, 2):
-        data = stream.read(CHUNK)
-        if True:
-            reading = audioop.max(data, 2)
-            total = total + reading
-        time.sleep(0.0001)
-
-    total = total / 100
-
-    sound_tracks[current_section] = sound_tracks[current_section][1:] + [total]
-    max_value[current_section] = max(max_value[current_section], total)
-
-    screen.fill(WHITE)
-
-    # draw highlighted section
-    pygame.draw.rect(
-        screen,
-        YELLOW,
-        (screensize[0] / 3 * current_section, 0, screensize[0] / 3, screensize[1]),
-    )
-
-    for i in range(3):
-        sectionx = i * screensize[0] / 3 + margin
-        pygame.draw.rect(
-            screen,
-            RED,
-            (
-                sectionx,
-                screensize[1] - max_value[i],
-                screensize[0] / 3 - 2 * margin,
-                max_value[i],
-            ),
-        )
-        j_length = int(screensize[0] / 3 - 2 * margin)
-
-        for j in range(0, j_length):
-            x = j + sectionx
-            y = screensize[1] - sound_tracks[i][j]
-            pygame.draw.rect(screen, BLUE, (x, y, 1, sound_tracks[i][j]))
-
-    pygame.display.flip()
-
-    # set close button event
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-        if event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 3:
-                sound_tracks = [[0] * samples_per_section] * 3
-                max_value = [0] * 3
-                current_section = 0
-            else:
-                pos = pygame.mouse.get_pos()
-                current_section = (pos[0] * 3) / screensize[0]
-                print(pos, current_section)
-
-# clear resources
-pygame.quit()
-stream.stop_stream()
-stream.close()
-p.terminate()
-pygame.quit()
+    # wait 20 seconds b4 recording again
+    print("Waiting for 20 seconds before restarting...")
+    time.sleep(WAIT_SECONDS)

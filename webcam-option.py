@@ -14,6 +14,7 @@ cap.set(4, 480)
 
 person_counter = 0
 person_list = []
+person_average = 0  # AVERAGE OF 1 MINUTE --> NEEDS TO BE SENT TO MONGODB
 
 # timer stuff
 # timer setup
