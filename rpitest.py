@@ -1,17 +1,8 @@
-import cv2
+from picamera import PiCamera
+import time
 
-gst_pipeline = "libcamerasrc ! video/x-raw, width=640, height=480, framerate=30/1 ! videoconvert ! appsink"
-cap = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
-
-if not cap.isOpened():
-    print("Error: Could not open camera.")
-else:
-    ret, img = cap.read()
-    if not ret:
-        print("Error: Failed to capture image.")
-    else:
-        cv2.imshow("Webcam", img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-cap.release()
+camera = PiCamera()
+camera.start_preview()  # Optional: displays a preview on the screen
+time.sleep(2)  # Give the camera time to adjust
+camera.capture('/home/pi/Pictures/image.jpg')
+camera.stop_preview()  # Optional: stops the preview
