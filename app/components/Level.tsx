@@ -5,7 +5,6 @@ import {
   AccordionContent,
 } from "./ui/accordion";
 import { View } from "react-native";
-import LevelMap from "~/lib/levelmaps/Level1";
 import { DEMO_LOUGNE_STATUSE } from "~/DummyData";
 import OverlayL1 from "~/lib/levelmaps/OverlayL1";
 import LEVELS from "~/lib/levelmaps/index";

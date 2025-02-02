@@ -7,6 +7,7 @@ import {
 } from "~/components/ui/hover-card";
 import { Text } from "~/components/ui/text";
 import { LoungeStatus } from "~/types";
+// import AnimatedCircles from "./AnimatedDots";
 
 interface OverlayItems {
   loungeStatus: LoungeStatus;
@@ -19,7 +20,9 @@ const OverlayItem: React.FC<OverlayItems> = ({ loungeStatus, x, y }) => {
     <HoverCard className={`absolute z-10`} style={{ top: y, left: x }}>
       <HoverCard>
         <HoverCardTrigger asChild>
-          <Button variant="link" size="lg"></Button>
+          <Button variant="link" size="lg">
+            {/* {loungeStatus.loungeId === "51" && <AnimatedCircles />} */}
+          </Button>
         </HoverCardTrigger>
         <HoverCardContent className="w-fit">
           <View>
