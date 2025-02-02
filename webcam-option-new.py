@@ -31,7 +31,7 @@ while True:
     current_time = time.time()
     if (current_time - last_run_time) >= interval:
 
-        os.system("rpicam-still --nopreview --output /dev/shm/test.jpg")
+        os.system("rpicam-still --output /dev/shm/test.jpg")
 
         img = cv2.imread("/dev/shm/test.jpg")
 

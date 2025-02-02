@@ -18,7 +18,7 @@ person_average = 0  # AVERAGE OF 1 MINUTE --> NEEDS TO BE SENT TO MONGODB
 
 # timer stuff
 # timer setup
-last_run_time = time.time()  # last execution time
+last_run_time = -1000000  # last execution time
 interval = 20  # 20-second interval
 
 
