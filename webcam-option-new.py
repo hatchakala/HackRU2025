@@ -22,7 +22,10 @@ person_average = 0  # AVERAGE OF 1 MINUTE --> NEEDS TO BE SENT TO MONGODB
 last_run_time = time.time()  # last execution time
 interval = 20  # 20-second interval
 
-os.system("rm /dev/shm/test.jpg")
+try:
+    os.system("rm /dev/shm/test.jpg")
+except:
+    pass
 
 while True:
     # success, img = cap.read()
@@ -83,7 +86,10 @@ while True:
             print(" (1-MINUTE) Average people in frame: ", person_average)
             person_list.clear()
         
-    os.system("rm /dev/shm/test.jpg")
+    try:
+        os.system("rm /dev/shm/test.jpg")
+    except:
+        pass
 
 
     #cv2.imshow("Webcam", img)
