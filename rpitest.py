@@ -3,4 +3,6 @@ import os
 
 os.system("rpicam-still --nopreview --output test.jpg")
 
-cv2.imshow("Image", cv2.imread("test.jpg"))
+image = cv2.imread("test.jpg")
+
+cv2.imshow("Image", image)
