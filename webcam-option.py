@@ -2,6 +2,7 @@ import cv2
 from ultralytics import YOLO
 import math
 import time
+import os
 
 # model stuff
 model = YOLO("yolo-Weights/yolov8n.pt")
@@ -23,7 +24,11 @@ interval = 20  # 20-second interval
 
 
 while True:
-    success, img = cap.read()
+    # success, img = cap.read()
+
+    os.system("rpicam-still --nopreview --output /dev/shm/test.jpg")
+
+    img = cv2.imread("/dev/shm/test.jpg")
 
     current_time = time.time()
     if (current_time - last_run_time) >= interval:
