@@ -73,7 +73,7 @@ while True:
             print(" (1-MINUTE) Average people in frame: ", person_average)
             person_list.clear()
 
-    cv2.imshow("Webcam", img)
+    #cv2.imshow("Webcam", img)
     if cv2.waitKey(1) == ord("q"):
         break
 

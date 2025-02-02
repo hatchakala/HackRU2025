@@ -61,7 +61,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             person_list.clear()  # Reset the list for the next minute
 
     # Display the frame (optional)
-    cv2.imshow("PiCamera", img)
+    #cv2.imshow("PiCamera", img)
     key = cv2.waitKey(1) & 0xFF
     if key == ord("q"):
         break
