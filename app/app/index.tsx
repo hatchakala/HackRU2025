@@ -17,9 +17,7 @@ export default function App() {
       >
         {[5, 4, 3, 2, 1].map((level) => {
           return (
-            <View key={level}>
-              <Level level={level} isOpen={openLevel === level} />
-            </View>
+            <Level level={level} isOpen={openLevel === level} key={level} />
           );
         })}
       </Accordion>

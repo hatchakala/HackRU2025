@@ -1,38 +1,12 @@
-import { CalendarDays } from "lucide-react-native";
-import { Button, View, Text } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
-import {
-  HoverCard,
-  HoverCardTrigger,
-  HoverCardContent,
-} from "~/components/ui/hover-card";
 import { LoungeStatus } from "~/types";
+import { getFillColor } from "./util";
 
-import { Button as CNButton } from "~/components/ui/button";
-import { Text as CNText } from "~/components/ui/text";
-import { Sun } from "~/lib/icons/Sun";
-
-interface Level1Map {
+interface LevelMap {
   loungeStatus: LoungeStatus[];
 }
 
-const getFillColor = (noiseLevel: number) => {
-  switch (noiseLevel) {
-    case 0:
-      return "blue";
-    case 1:
-      return "yellow";
-    case 2:
-      return "orange";
-    case 3:
-      return "red";
-    default:
-      break;
-  }
-};
-
-const Level1Map: React.FC<Level1Map> = ({ loungeStatus }) => {
+const Level1Map: React.FC<LevelMap> = ({ loungeStatus }) => {
   const [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11] = loungeStatus;
   return (
     <Svg

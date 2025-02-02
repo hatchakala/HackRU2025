@@ -5,9 +5,9 @@ import {
   AccordionContent,
 } from "./ui/accordion";
 import { View } from "react-native";
-import Level1Map from "~/lib/levelmaps/Level1";
 import { DEMO_LOUGNE_STATUSE } from "~/DummyData";
 import OverlayL1 from "~/lib/levelmaps/OverlayL1";
+import LEVELS from "~/lib/levelmaps/index";
 
 interface LevelProps {
   level: number;
@@ -31,7 +31,7 @@ const Level: React.FC<LevelProps> = ({ level, isOpen }) => {
       <AccordionContent className="">
         <View className="items-center">
           <OverlayL1 levelStatus={DEMO_LOUGNE_STATUSE} />
-          <Level1Map loungeStatus={DEMO_LOUGNE_STATUSE} />
+          {LEVELS[level - 1](DEMO_LOUGNE_STATUSE)}
         </View>
       </AccordionContent>
     </AccordionItem>
