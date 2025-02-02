@@ -1,23 +1,16 @@
 import cv2
-import math
-import time
 
-# model stuff
-
-# start webcam
 cap = cv2.VideoCapture(0)
-cap.set(3, 640)
 
-while True:
-    success, img = cap.read()
-
-    print("Success: ", success)
-
-    cv2.imshow("Webcam", img)
-
-    #cv2.imshow("Webcam", img)
-    if cv2.waitKey(1) == ord("q"):
-        break
+if not cap.isOpened():
+    print("Error: Could not open camera.")
+else:
+    ret, img = cap.read()
+    if not ret:
+        print("Error: Failed to capture image.")
+    else:
+        cv2.imshow("Webcam", img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
 cap.release()
-cv2.destroyAllWindows()
