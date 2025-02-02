@@ -22,10 +22,8 @@ person_average = 0  # AVERAGE OF 1 MINUTE --> NEEDS TO BE SENT TO MONGODB
 last_run_time = time.time()  # last execution time
 interval = 20  # 20-second interval
 
-try:
+if os.path.exists("/dev/shm/test.jpg"):
     os.system("rm /dev/shm/test.jpg")
-except:
-    pass
 
 while True:
     # success, img = cap.read()
@@ -34,9 +32,6 @@ while True:
     if (current_time - last_run_time) >= interval:
 
         os.system("rpicam-still --nopreview --output /dev/shm/test.jpg")
-
-        while not os.path.exists("/dev/shm/test.jpg"):
-            pass
 
         img = cv2.imread("/dev/shm/test.jpg")
 
@@ -86,10 +81,9 @@ while True:
             print(" (1-MINUTE) Average people in frame: ", person_average)
             person_list.clear()
         
-    try:
+    
+    if os.path.exists("/dev/shm/test.jpg"):
         os.system("rm /dev/shm/test.jpg")
-    except:
-        pass
 
 
     #cv2.imshow("Webcam", img)
