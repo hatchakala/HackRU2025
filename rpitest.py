@@ -1,6 +1,7 @@
 import cv2
 
-cap = cv2.VideoCapture(1)
+gst_pipeline = "libcamerasrc ! video/x-raw, width=640, height=480, framerate=30/1 ! videoconvert ! appsink"
+cap = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
 
 if not cap.isOpened():
     print("Error: Could not open camera.")
