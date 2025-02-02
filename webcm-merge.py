@@ -132,7 +132,7 @@ while True:
         print("PENDING 1 MINUTE DATA TO BE SENT TO MONGODB:")
         db_list = [lounge_id, person_average, yap_level]
         print(db_list)
-        insert_lounge_data(lounge_id, person_average, yap_level)
+        insert_lounge_data(lounge_id, person_average, yap_level) # works correctly!
         
 
     # wait 20 seconds before recording again
