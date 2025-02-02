@@ -6,6 +6,8 @@ import audioop
 import pyaudio
 import numpy as np
 
+from db import insert_lounge_data
+
 
 def yap_meter(rms_average):
     if rms_average < 250:
@@ -130,6 +132,8 @@ while True:
         print("PENDING 1 MINUTE DATA TO BE SENT TO MONGODB:")
         db_list = [lounge_id, person_average, yap_level]
         print(db_list)
+        insert_lounge_data(lounge_id, person_average, yap_level)
+        
 
     # wait 20 seconds before recording again
     print("Waiting for 10 seconds before restarting...")
