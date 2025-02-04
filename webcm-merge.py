@@ -129,17 +129,17 @@ while True:
         # person detection is completed last, so this is when all MongoDB needs to be sent
         # MONGODB DATA SENDING
         yap_level = yap_meter(rms_average)
-        print("PENDING 1 MINUTE DATA TO BE SENT TO MONGODB:")
+        print("1 MINUTE DATA TO SEND:")
         db_list = [lounge_id, person_average, yap_level]
         print(db_list)
-        insert_lounge_data(lounge_id, person_average, yap_level) # works correctly!
-        
+        insert_lounge_data(lounge_id, person_average, yap_level) # MONGODB not working correctly for some reason
 
     # wait 20 seconds before recording again
     print("Waiting for 10 seconds before restarting...")
     time.sleep(WAIT_SECONDS)
 
     # exit on 'q' key press for webcam feed
+    #cv2.imshow("Webcam", img)
     if cv2.waitKey(1) == ord("q"):
         break
 
